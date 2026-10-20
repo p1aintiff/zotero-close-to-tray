@@ -9,7 +9,7 @@ Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
 $ownerProcess = [System.Diagnostics.Process]::GetProcessById($OwnerProcessId)
-$icon = [System.Drawing.Icon]::ExtractAssociatedIcon($IconPath)
+$icon = [System.Drawing.Icon]::new($IconPath, [System.Windows.Forms.SystemInformation]::SmallIconSize)
 $menu = New-Object System.Windows.Forms.ContextMenuStrip
 $showItem = $menu.Items.Add('显示 Zotero')
 [void]$menu.Items.Add((New-Object System.Windows.Forms.ToolStripSeparator))
