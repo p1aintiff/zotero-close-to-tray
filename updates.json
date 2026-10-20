@@ -1,0 +1,19 @@
+{
+    "addons":  {
+                   "close-to-tray@zotero-exit.local":  {
+                                                           "updates":  [
+                                                                           {
+                                                                               "version":  "1.0.2",
+                                                                               "update_link":  "https://github.com/p1aintiff/zotero-exit/releases/download/v1.0.2/zotero-close-to-tray-1.0.2.xpi",
+                                                                               "update_hash":  "sha256:059a52d91ebea7192336ada152106e1e711e1286259bf77e7f860eebf05c0c09",
+                                                                               "applications":  {
+                                                                                                    "zotero":  {
+                                                                                                                   "strict_min_version":  "10.0",
+                                                                                                                   "strict_max_version":  "10.0.*"
+                                                                                                               }
+                                                                                                }
+                                                                           }
+                                                                       ]
+                                                       }
+               }
+}

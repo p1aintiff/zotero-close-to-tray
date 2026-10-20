@@ -1,0 +1,48 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: windows-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check version and syntax
+        shell: powershell
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          $manifest = Get-Content manifest.json -Raw -Encoding UTF8 | ConvertFrom-Json
+          if ($env:RELEASE_TAG -ne "v$($manifest.version)") { throw 'Tag and manifest version must match.' }
+          node --check bootstrap.js
+          if ($LASTEXITCODE -ne 0) { throw 'JavaScript syntax check failed.' }
+      - name: Build and verify update hash
+        shell: powershell
+        run: |
+          .\build.ps1
+          git diff --exit-code -- updates.json
+          if ($LASTEXITCODE -ne 0) { throw 'Rebuild and commit updates.json before tagging a release.' }
+      - name: Publish installation package
+        shell: powershell
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          $manifest = Get-Content manifest.json -Raw -Encoding UTF8 | ConvertFrom-Json
+          $asset = "dist/zotero-close-to-tray-$($manifest.version).xpi"
+          gh release create $env:RELEASE_TAG $asset --verify-tag --title $env:RELEASE_TAG --generate-notes
+          if ($LASTEXITCODE -ne 0) { throw 'Release publication failed.' }
