@@ -3,9 +3,9 @@
                    "close-to-tray@zotero-exit.local":  {
                                                            "updates":  [
                                                                            {
-                                                                               "version":  "1.0.3",
-                                                                               "update_link":  "https://github.com/p1aintiff/zotero-close-to-tray/releases/download/v1.0.3/zotero-close-to-tray-1.0.3.xpi",
-                                                                               "update_hash":  "sha256:fe1ce2113583312c94385231d9e49ac3b68eae2600eee2c73c81461b73399df9",
+                                                                               "version":  "1.0.4",
+                                                                               "update_link":  "https://github.com/p1aintiff/zotero-close-to-tray/releases/download/v1.0.4/zotero-close-to-tray-1.0.4.xpi",
+                                                                               "update_hash":  "sha256:3c952d2645b045fe536734bc268daef9c3516c164f2d1f2c02923c84c16d5e48",
                                                                                "applications":  {
                                                                                                     "zotero":  {
                                                                                                                    "strict_min_version":  "10.0",

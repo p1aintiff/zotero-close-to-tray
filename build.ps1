@@ -20,7 +20,7 @@ $stream = [System.IO.File]::Open($outputPath, [System.IO.FileMode]::Create)
 $archive = New-Object System.IO.Compression.ZipArchive($stream, [System.IO.Compression.ZipArchiveMode]::Create)
 try {
     foreach ($name in @('manifest.json', 'bootstrap.js', 'tray.ps1', 'LICENSE',
-        'icons/icon-48.png', 'icons/icon-96.png', 'icons/icon.ico')) {
+        'icons/icon-48.png', 'icons/icon-96.png')) {
         $entry = $archive.CreateEntry($name)
         $entry.LastWriteTime = [DateTimeOffset]::new(2026, 1, 1, 0, 0, 0, [TimeSpan]::Zero)
         $inputStream = [System.IO.File]::OpenRead((Join-Path $PSScriptRoot $name))

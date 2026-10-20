@@ -1,4 +1,4 @@
-/* global Zotero, Services, ChromeUtils, Components, Cc, Ci, IOUtils, PathUtils, APP_SHUTDOWN */
+/* global Zotero, Services, Cc, Ci, IOUtils, PathUtils, APP_SHUTDOWN */
 
 var windows = new Map();
 var trayProcess;
@@ -70,21 +70,6 @@ async function startup({ rootURI }) {
     let scriptPath = PathUtils.join(ipcDirectory, "tray.ps1");
     // Windows PowerShell 5.1 requires a BOM for UTF-8 Chinese text.
     await IOUtils.writeUTF8(scriptPath, "\uFEFF" + script);
-    let { NetUtil } = ChromeUtils.importESModule("resource://gre/modules/NetUtil.sys.mjs");
-    let iconBytes = await new Promise((resolve, reject) => {
-      NetUtil.asyncFetch({ uri: rootURI + "icons/icon.ico", loadUsingSystemPrincipal: true },
-        (stream, status) => {
-          if (!Components.isSuccessCode(status)) {
-            reject(new Error("Unable to read tray icon: " + status));
-            return;
-          }
-          let input = Cc["@mozilla.org/binaryinputstream;1"].createInstance(Ci.nsIBinaryInputStream);
-          input.setInputStream(stream);
-          resolve(new Uint8Array(input.readByteArray(input.available())));
-        });
-    });
-    let iconPath = PathUtils.join(ipcDirectory, "icon.ico");
-    await IOUtils.write(iconPath, iconBytes);
     if (stopped) {
       await IOUtils.remove(ipcDirectory, { recursive: true });
       return;
@@ -100,7 +85,7 @@ async function startup({ rootURI }) {
       "-ExecutionPolicy", "Bypass", "-File", scriptPath,
       "-IpcDirectory", ipcDirectory,
       "-OwnerProcessId", String(Services.appinfo.processID),
-      "-IconPath", iconPath];
+      "-IconPath", Services.dirsvc.get("XREExeF", Ci.nsIFile).path];
     trayProcess.runwAsync(args, args.length, {
       async observe() {
         trayReady = false;

@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Zotero Close to Tray",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "author": "p1aintiff",
   "description": "点击关闭按钮时将 Zotero 隐藏到 Windows 系统托盘。",
   "icons": {

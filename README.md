@@ -6,7 +6,7 @@
 
 ## 在线下载安装
 
-**[下载最新版](https://github.com/p1aintiff/zotero-close-to-tray/releases/latest)** · **[直接下载 1.0.3 XPI](https://github.com/p1aintiff/zotero-close-to-tray/releases/download/v1.0.3/zotero-close-to-tray-1.0.3.xpi)**
+**[下载最新版](https://github.com/p1aintiff/zotero-close-to-tray/releases/latest)** · **[直接下载 1.0.4 XPI](https://github.com/p1aintiff/zotero-close-to-tray/releases/download/v1.0.4/zotero-close-to-tray-1.0.4.xpi)**
 
 1. 从上面的 GitHub Releases 下载 `.xpi` 安装包，无需下载源码或自行构建。
 2. 在 Zotero 打开「工具 → 插件」（Tools → Plugins）。
@@ -14,6 +14,8 @@
 4. 安装后无需重启。通知区域会出现 Zotero 图标；Windows 可能将它放进「显示隐藏的图标」区域。
 
 **从本地版 1.0.1 升级的用户，请先手动安装一次最新版。** 1.0.1 使用占位更新地址，无法自动发现本仓库的新版本。1.0.2 起使用本仓库的在线更新清单，之后可以通过 Zotero 插件管理器检查更新。
+
+已安装 1.0.2 或更新版本时，可在 Zotero「工具 → 插件 → 齿轮菜单 → 检查更新」中升级，无需卸载或重新下载。GitHub 上发布的新版本会通过在线更新清单提供给 Zotero。
 
 ## 使用
 
@@ -39,18 +41,18 @@ node --check bootstrap.js
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\build.ps1
 ```
 
-构建生成 `dist/zotero-close-to-tray-1.0.3.xpi`，并同步生成根目录的 `updates.json`，包括版本、Release 下载地址、兼容范围和 XPI 的 SHA-256。构建不需要 npm 或第三方依赖，XPI 包含 `manifest.json`、`bootstrap.js`、`tray.ps1` 、图标资源和 MIT 许可证。压缩包条目使用固定时间戳以保证重复构建结果一致。
+构建生成 `dist/zotero-close-to-tray-1.0.4.xpi`，并同步生成根目录的 `updates.json`，包括版本、Release 下载地址、兼容范围和 XPI 的 SHA-256。构建不需要 npm 或第三方依赖，XPI 包含 `manifest.json`、`bootstrap.js`、`tray.ps1` 、图标资源和 MIT 许可证。压缩包条目使用固定时间戳以保证重复构建结果一致。
 
-插件管理器和系统托盘使用统一的红底白色收起图标，PNG 和多分辨率 ICO 已随包提供。矢量源文件为 `icons/icon.svg`；修改设计后可运行 `powershell.exe -NoProfile -File .\scripts\build-icons.ps1` 生成图标。
+插件管理器使用红底白色收起图标，PNG 随安装包提供；系统托盘使用从 Zotero 可执行文件提取的 Zotero 官方图标。插件图标的矢量源文件为 `icons/icon.svg`；修改设计后可运行 `powershell.exe -NoProfile -File .\scripts\build-icons.ps1` 生成图标。
 
 本地预览使用 `powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\build.ps1 -Preview`，生成独立的 `-preview.xpi`，不修改在线更新清单或正式安装包。
 
 在 `main` 分支修改版本和下载说明，执行构建，检查并提交代码与 `updates.json` 后，创建并推送对应的版本标签，例如：
 
 ```sh
-git tag v1.0.3
+git tag v1.0.4
 git push origin main
-git push origin v1.0.3
+git push origin v1.0.4
 ```
 
 [GitHub Actions](https://github.com/p1aintiff/zotero-close-to-tray/actions) 会验证标签版本、JavaScript 语法、构建结果与更新清单哈希，成功后创建 GitHub Release 并上传 XPI。使用 GitHub 自带的 `GITHUB_TOKEN`，无需额外配置个人令牌。普通代码推送不会创建 Release。
@@ -58,6 +60,8 @@ git push origin v1.0.3
 插件更新清单位于 [updates.json](https://raw.githubusercontent.com/p1aintiff/zotero-close-to-tray/main/updates.json)，只有已发布且拥有对应安装包的版本才可用于更新。请确认标签发布成功。
 
 ## 版本记录
+
+- **1.0.4**：系统托盘改用 Zotero 官方图标，插件管理器保留插件图标，移除托盘图标的额外解包流程。
 
 - **1.0.3**：为插件管理器和系统托盘加入统一图标，提供本地预览构建，同步仓库更名后的下载与更新地址。
 
